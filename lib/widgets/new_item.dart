@@ -28,10 +28,17 @@ class _NewItemState extends State<NewItem> {
                   label: Text('Name'),
                 ),
                 validator: (value) {
-                  return 'demo...';
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.trim().length <= 1 ||
+                      value.trim().length > 50) {
+                    return 'Must be between 1 and 50 characters long';
+                  }
+                  return null;
                 },
               ), // instead of TextField()
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextFormField(
@@ -39,6 +46,15 @@ class _NewItemState extends State<NewItem> {
                         label: Text('Quantity'),
                       ),
                       initialValue: '1',
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            int.tryParse(value) == null ||
+                            int.tryParse(value)! <= 0) {
+                          return 'Must be a valid positive number';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(
