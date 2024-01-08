@@ -32,6 +32,7 @@ class _NewItemState extends State<NewItem> {
         headers: {
           'Content-type': 'application/json',
         },
+        // POST request we encode the request
         body: json.encode(
           {
             'name': _enteredName,
