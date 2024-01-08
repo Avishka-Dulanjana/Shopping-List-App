@@ -40,6 +40,13 @@ class _GroceryListState extends State<GroceryList> {
 
     print(response.body);
 
+    if (response.body == 'null') {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
     // GET request we decode the encode data from the server to json
     final Map<String, dynamic> listData = json.decode(response.body);
     final List<GroceryItem> loadedItems = [];
