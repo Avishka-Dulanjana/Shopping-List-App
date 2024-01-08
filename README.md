@@ -1,6 +1,11 @@
 # shopping_list
 
-Shopping List with Validating User Inputs
+Shopping List App using Firebase database.
+
+- HTTP request handling.
+- Error Handling.
+- POST, GET, UPDATE, DELETE request managing.
+- Firebase configuration.
 
 ## Getting Started
 
