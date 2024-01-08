@@ -80,6 +80,11 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   void _removeItem(GroceryItem item) {
+    final url = Uri.https('flutter-prep-208af-default-rtdb.firebaseio.com',
+        'shopping-list/${item.id}.json');
+
+    http.delete(url);
+
     setState(() {
       _groceryItems.remove(item);
     });
