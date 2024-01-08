@@ -172,7 +172,8 @@ class _NewItemState extends State<NewItem> {
                             height: 16,
                             width: 16,
                             child: CircularProgressIndicator(
-                                color: Colors.white, strokeWidth: 2))
+                                color: Colors.white, strokeWidth: 2),
+                          )
                         : const Text('Add Item'),
                   ),
                 ],
