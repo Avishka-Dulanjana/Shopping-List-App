@@ -102,23 +102,61 @@ class _GroceryListState extends State<GroceryList> {
     final url = Uri.https('flutter-prep-208af-default-rtdb.firebaseio.com',
         'shopping-list/${item.id}.json');
 
-    final response = await http.delete(url);
+    // DELETE request handling
+    bool performDeletion = false;
 
-    if (response.statusCode >= 400) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Something went wrong, ${item.name} not removed!'),
-          duration: const Duration(seconds: 5),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              setState(() {
-                _groceryItems.insert(index, item);
-              });
-            },
+    final response = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete ${item.name}?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(false); // User canceled, do not delete
+                setState(() {
+                  _groceryItems.insert(index, item);
+                });
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(true); // User confirmed, proceed with deletion
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (response == true) {
+      performDeletion = true;
+    }
+
+    if (performDeletion) {
+      final response = await http.delete(url);
+
+      if (response.statusCode >= 400) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Something went wrong, ${item.name} not removed!'),
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {
+                setState(() {
+                  _groceryItems.insert(index, item);
+                });
+              },
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
